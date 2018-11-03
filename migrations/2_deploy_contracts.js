@@ -1,5 +1,5 @@
 var MyToken= artifacts.require('./MyToken.sol');
 
 module.exports = function(deployer) {
-  deployer.deploy(MyToken);
+  deployer.deploy(MyToken, 10000);
 };
