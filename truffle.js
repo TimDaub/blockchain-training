@@ -4,10 +4,6 @@ const web3 = new Web3();
 const WalletProvider = require("truffle-wallet-provider");
 const Wallet = require('ethereumjs-wallet');
 
-var mainNetPrivateKey = new Buffer(process.env["MAINNET_PRIVATE_KEY"], "hex")
-var mainNetWallet = Wallet.fromPrivateKey(mainNetPrivateKey);
-var mainNetProvider = new WalletProvider(mainNetWallet, "https://mainnet.infura.io/");
-
 var rinkebyPrivateKey = new Buffer(process.env["RINKEBY_PRIVATE_KEY"], "hex")
 var rinkebyWallet = Wallet.fromPrivateKey(rinkebyPrivateKey);
 var rinkebyProvider = new WalletProvider(rinkebyWallet, "https://rinkeby.infura.io/");
@@ -29,12 +25,6 @@ module.exports = {
       gas: 4600000,
       gasPrice: web3.toWei("20", "gwei"),
       network_id: "4",
-    },
-    mainnet: {
-      provider: mainNetProvider,
-      gas: 4600000,
-      gasPrice: web3.toWei("20", "gwei"),
-      network_id: "1",
     }
   }
 };
