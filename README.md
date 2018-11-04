@@ -222,3 +222,5 @@ ether from a faucet. We'll now need to tell `truffle.config` our private key to
 this ether for it to successfully deploy the token tracker. To get the private
 key from Metamask, open Metamask in your browser. Click on the three dots next
 to your address and click "View Account Details".
+
+![metamask account](https://github.com/TimDaub/blockchain-training/blob/master/assets/screenshot1.png?raw=true)
