@@ -1,13 +1,5 @@
 # How to launch a token on Ethereum
 
-## TODO
-
-- make token nameable so that they can have fun with it.
-- write a frontend component that display the name of the token, the balance
-as well as a transfer button 
-- write a tutorial about installing metamask
-- 
-
 ## 1. Installation
 
 To install this codebase first clone it from github and setup node dependencies.
@@ -67,6 +59,9 @@ and their balances. Balances are of type `uint256`. Addresses have a special
 At the top of contract, create a mapping that maps `address => uint256` and
 call it `balanceOf`.
 
+To test whether nor not the code that you wrote is correct, you can execute
+`truffle compile` in the root of your directory.
+
 ### 3.2 Giving the creator all coins ¯\_(ツ)_/¯
 
 The `constructor` initializes the smart contract. Before a contract is not
@@ -82,7 +77,8 @@ We'd like to give the person initializing the contract all the initialSupply
 coins. Remember, `balanceOf` maps an `address` to a `uint`. It happens to be
 that `msg.sender` is an `address` and `initialSupply` an `uint256`. To do this,
 we need to set the `balanceOf` of the caller (`msg.sender`) to `initialSupply`.
-Implement this in the `constructor` method.
+Implement this in the `constructor` method. Test your code again by executing
+`truffle compile` in the root directory of your project.
 
 ### 3.3 The transfer method
 
@@ -128,13 +124,13 @@ Let's first remove `_value` from `msg.sender`. We can use the `-=` operator to
 do so. As a second step, we'd like to add `_value` to `balanceOf[_to]`. To do
 so we can use the `+=` operator. If you're struggling to assign the values, go
 back and take a look at how we assigned the `initialSupply` to
-`balanceOf[msg.sender]` in the `constructor` method.
+`balanceOf[msg.sender]` in the `constructor` method. Test your code again by
+doing `truffle compile` in the root directory of your project.
 
 ### Finishing up
 
 That's it. You've successfully implemented your own token tracker in solidity.
 Congratulations! Now let's deploy this thing onto a test net and use it.
-
 
 ## 4. Installing metamask and getting ether from rinkeby faucet
 
@@ -156,7 +152,7 @@ ether using your social media profile of your choice.
 
 Now that you've received your ether in Metamask, we can start to deploy our
 contract. To do so, let's take a look at our `truffle.js` file in the root
-directory. 
+directory. We've commented the code so you can see what it does.
 
 ```javascript
 // it requires dotenv and reads the .env file
@@ -194,3 +190,35 @@ module.exports = {
   }
 };
 ```
+
+To deploy a contract, you'll have to use the `truffle` command line interface.
+Remember that you installed it in the beginning of the lesson already. First,
+we want to compile our contract to check whether or not we have any errors.
+In your command line, execute `$ truffle compile`. It should give you an output
+like this:
+
+```
+ TimDaub@kazoo  ~/Projects/blockchain-training   master  truffle compile
+ Compiling ./contracts/MyToken.sol...
+
+ Compilation warnings encountered:
+
+ /Users/TimDaub/Projects/blockchain-training/contracts/MyToken.sol:15:5: Warning: No visibility specified. Defaulting to "public".
+     function transfer(address _to, uint256 _value) {
+         ^ (Relevant source part starts here and spans across multiple lines).
+
+         Writing artifacts to ./build/contracts
+```
+
+Assuming you don't have any errors in your code, we can now deploy your contract
+to the Rinkeby test network.
+
+### Deploying to the Rinkeby test network
+
+Deploying to the Rinkeby test network is simple. All you have to do is invoke
+the script in `truffle.config`. Creating a contract on the network requires
+some ether however. Remember that in earlier in this step we requested some
+ether from a faucet. We'll now need to tell `truffle.config` our private key to
+this ether for it to successfully deploy the token tracker. To get the private
+key from Metamask, open Metamask in your browser. Click on the three dots next
+to your address and click "View Account Details".
