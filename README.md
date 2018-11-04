@@ -72,9 +72,19 @@ initialized, it's methods cannot be called appropriately. For our token we want
 to give all of the coins initially to ourselves. A `uint256 initialSupply` is
 already passed to `constructor(uint256 initialSupply)`. This happens when we
 deploy the contract with a migration. Take a look at
-`migrations/2_deploy_contract.js`. There we pass in `10000` as a second
-parameter to `.deploy()`. This is our `initialSupply` value. As a first
-parameter we're passing the artifact of the contract itself.
+`migrations/2_deploy_contract.js`. 
+
+```
+var MyToken = artifacts.require('./MyToken.sol');
+
+module.exports = function(deployer) {
+  deployer.deploy(MyToken, 10000);
+};
+```
+
+There we pass in `10000` as a second parameter to `.deploy()`. This is our
+`initialSupply` value. As a first parameter we're passing the artifact of the
+contract itself.
 
 We'd like to give the person initializing the contract all the initialSupply
 coins. Remember, `balanceOf` maps an `address` to a `uint`. It happens to be
