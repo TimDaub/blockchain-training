@@ -24,6 +24,9 @@ Check out the repository. There are a variety of folders for you to take a look
 at. Open them and familiarize yourself with the files in them.
 
 ```
+# holds pictures that are included in this document. Nothing of importance
+/assets/
+
 # holds the solidity contracts
 /contracts/
 
@@ -220,3 +223,46 @@ key from Metamask, open Metamask in your browser. Click on the three dots next
 to your address and click "View Account Details".
 
 ![metamask account](https://github.com/TimDaub/blockchain-training/blob/master/assets/screenshot1.png?raw=true)
+
+Click on "Export Private Key", enter your password and reveal your private key.
+Copy it into your clipboard. Go into your console and enter the following:
+
+```
+$ RINKEBY_PRIVATE_KEY=<Your private key> truffle migrate --network rinkeby
+```
+
+and hit enter. You should see the following output:
+```
+TimDaub@kazoo  ~/Projects/blockchain-training   master  RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby --reset
+Using network 'rinkeby'.
+
+Running migration: 1_initial_migration.js
+    Replacing Migrations...
+    ... 0xc564f83149174c48d12577f9101c989632e0cde78ca1b2cfe48979a4eb185bb8
+    Migrations: 0x598074dd1b443ac1f7d4fc82ba1eb69eb1a8a7c1
+Saving successful migration to network...
+    ... 0x044cb720d4bf7278a2e5d30451f3950ff6890defbcd9d07ecf63fa4fe7c746f1
+Saving artifacts...
+Running migration: 2_deploy_contracts.js
+    Deploying MyToken...
+    ... 0x19ca5e34163098b1df9b4e3ee1f650ec4a5355dee36e6a4bffb3c92ac6a46647
+    MyToken: 0x99630163238b40a4de6c35eb8ca5904d11def718
+Saving successful migration to network...
+    ... 0xf1e391f253ad157ebc3c886d77cfe17e8b1f23500f182d36393e4092784593b9
+Saving artifacts...
+```
+
+To check whether or not your token tracker was successfully implemented on the
+Rinkeby test network you can use rinkeby.etherscan.io to check your
+transaction.  To do so, copy the following line from above:
+
+```
+MyToken: 0x99630163238b40a4de6c35eb8ca5904d11def718
+```
+
+This is your contract's address on the Rinkeby test network. Open
+rinkeby.etherscan.io in a page in the browser and type into the search the
+address. Hit enter.  You'll see your contract page being loaded.
+
+Now that we've successfully deployed our token to the network, it's time to open
+our frontend.
