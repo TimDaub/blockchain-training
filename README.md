@@ -72,11 +72,23 @@ call it `balanceOf`.
 To test whether nor not the code that you wrote is correct, you can execute
 `truffle compile` in the root of your directory.
 
-### 3.2 Giving the creator all coins ¯\_(ツ)_/¯
+### 3.2 Giving our token a name
+
+Our token shouldn't just be a number on the Ethereum blockchain. We'd like our
+token to have a name. To do so we need to define a `string name`.
+A string can be defined like this:
+
+```
+string name = "My Name";
+```
+
+Define a `string` `name` below `balanceOf` to give your token a name.
+
+### 3.3 Giving the creator all tokens ¯\_(ツ)_/¯
 
 The `constructor` initializes the smart contract. Before a contract is not
 initialized, it's methods cannot be called appropriately. For our token we want
-to give all of the coins initially to ourselves. A `uint256 initialSupply` is
+to give all of the tokens initially to ourselves. A `uint256 initialSupply` is
 already passed to `constructor(uint256 initialSupply)`. This happens when we
 deploy the contract with a migration. Take a look at
 `migrations/2_deploy_contract.js`. 
@@ -94,13 +106,13 @@ There we pass in `10000` as a second parameter to `.deploy()`. This is our
 contract itself.
 
 We'd like to give the person initializing the contract all the `initialSupply`
-coins. Remember, `balanceOf` maps an `address` to a `uint256`. It happens to be
+tokens. Remember, `balanceOf` maps an `address` to a `uint256`. It happens to be
 that `msg.sender` is an `address` and `initialSupply` an `uint256`. To do this,
 we need to set the `balanceOf` of the caller (`msg.sender`) to `initialSupply`.
 Implement this in the `constructor` method. Test your code again by executing
 `truffle compile` in the root directory of your project.
 
-### 3.3 The transfer method
+### 3.4 The transfer method
 
 To recapitulate, we introduced a variable `balanceOf` that maps `address =>
 uint256`.  We told our constructor to allocate all funds to `msg.sender` (so to
@@ -121,7 +133,7 @@ As you can see, there is already a `require` statement in the `function
 transfer`.  It checks for overflows. Solidity `uint256` can overflow if a large
 or small enough value is passed to them. With this `require` statement, we'd
 like to make sure that anyone calling `function transfer` cannot actively
-overflow our values to create artificially more coins.
+overflow our values to create artificially more tokens.
 
 Secondly, we'd like to check whether the caller of the contract has enough of a
 balance to make the call anyways. For this we need to check the `balanceOf` of
