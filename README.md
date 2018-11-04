@@ -207,7 +207,7 @@ In your command line, execute `$ truffle compile`. It should give you an output
 like this:
 
 ```
- TimDaub@kazoo  ~/Projects/blockchain-training   master  truffle compile
+ $ truffle compile
  Compiling ./contracts/MyToken.sol...
 
  Compilation warnings encountered:
@@ -243,7 +243,7 @@ $ RINKEBY_PRIVATE_KEY=<Your private key> truffle migrate --network rinkeby
 
 and hit enter. You should see the following output:
 ```
-TimDaub@kazoo  ~/Projects/blockchain-training   master  RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby --reset
+$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby --reset
 Using network 'rinkeby'.
 
 Running migration: 1_initial_migration.js
