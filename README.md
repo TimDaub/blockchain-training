@@ -42,7 +42,7 @@ at. Open them and familiarize yourself with the files in them.
 # stores information about the node.js project
 /package.json
 
-# stores the deployment routine to the rinkeby test network
+# stores the deployment routine to the Rinkeby test network
 /truffle.js
 ```
 
@@ -145,7 +145,7 @@ doing `truffle compile` in the root directory of your project.
 That's it. You've successfully implemented your own token tracker in solidity.
 Congratulations! Now let's deploy this thing onto a test net and use it.
 
-## 4. Installing metamask and getting ether from rinkeby faucet
+## 4. Installing metamask and getting ether from Rinkeby faucet
 
 To deploy a smart contract we're going to need ether to deploy it. To store
 our ether, we'll need a wallet. A very convenient wallet is Metamask. It works
