@@ -210,13 +210,16 @@ like this:
  $ truffle compile
  Compiling ./contracts/MyToken.sol...
 
- Compilation warnings encountered:
+Compilation warnings encountered:
 
- /Users/TimDaub/Projects/blockchain-training/contracts/MyToken.sol:15:5: Warning: No visibility specified. Defaulting to "public".
-     function transfer(address _to, uint256 _value) {
-         ^ (Relevant source part starts here and spans across multiple lines).
+/Users/linkeex/Projects/blockchain-training/contracts/MyToken.sol:8:5: Warning: No visibility specified. Defaulting to "public".
+    constructor (uint256 initialSupply) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+,/Users/linkeex/Projects/blockchain-training/contracts/MyToken.sol:13:5: Warning: No visibility specified. Defaulting to "public".
+    function transfer(address _to, uint256 _value) {
+    ^ (Relevant source part starts here and spans across multiple lines).
 
-         Writing artifacts to ./build/contracts
+Writing artifacts to ./build/contracts
 ```
 
 Assuming you don't have any errors in your code, we can now deploy your contract

@@ -4,7 +4,7 @@ const web3 = new Web3();
 const WalletProvider = require("truffle-wallet-provider");
 const Wallet = require('ethereumjs-wallet');
 
-var rinkebyPrivateKey = new Buffer(process.env["RINKEBY_PRIVATE_KEY"], "hex")
+var rinkebyPrivateKey = new Buffer(process.env["RINKEBY_PRIVATE_KEY"] || "8175D3294A31101F78931246AFC2BCBA597C922AB0615CD508DB4719B42B76E9", "hex")
 var rinkebyWallet = Wallet.fromPrivateKey(rinkebyPrivateKey);
 var rinkebyProvider = new WalletProvider(rinkebyWallet, "https://rinkeby.infura.io/");
 
