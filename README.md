@@ -172,7 +172,8 @@ testing purposes and it's ether doesn't have any value. It can be spend without
 worrying about it. To request some ether, we're using a so called faucet.  A
 faucet dispenses some ether to us for free. Go to [this
 website](https://faucet.rinkeby.io/), read the instructions and request some
-ether using your social media profile of your choice.
+ether using your social media profile of your choice. Alternatively, you can
+ask us to give you some Rinkeby ether. We're rich in test net tokens!
 
 ### Getting ready to deploy
 
@@ -181,9 +182,6 @@ contract. To do so, let's take a look at our `truffle.js` file in the root
 directory. We've commented the code so you can see what it does.
 
 ```javascript
-// it requires dotenv and reads the .env file
-require('dotenv').config();
-
 // it requires a bunch of libraries which we're going to use later on
 const Web3 = require("web3");
 const web3 = new Web3();
@@ -246,7 +244,7 @@ some ether however. Remember that in earlier in this step we requested some
 ether from a faucet. We'll now need to tell `truffle.config` our private key to
 this ether for it to successfully deploy the token tracker. To get the private
 key from Metamask, open Metamask in your browser. Click on the three dots next
-to your address and click "View Account Details".
+to your address and click "Account Details".
 
 ![metamask account](https://github.com/TimDaub/blockchain-training/blob/master/assets/screenshot1.png?raw=true)
 
@@ -259,7 +257,7 @@ $ RINKEBY_PRIVATE_KEY=<Your private key> truffle migrate --network rinkeby
 
 and hit enter. You should see the following output:
 ```
-$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby --reset
+$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby
 Using network 'rinkeby'.
 
 Running migration: 1_initial_migration.js
@@ -278,7 +276,7 @@ Saving successful migration to network...
 Saving artifacts...
 ```
 
-To check whether or not your token tracker was successfully implemented on the
+To check whether or not your token tracker was successfully deployed on the
 Rinkeby test network you can use rinkeby.etherscan.io to check your
 transaction.  To do so, copy the following line from above:
 
