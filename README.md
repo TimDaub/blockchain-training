@@ -179,10 +179,6 @@ module.exports = {
   networks: {
     rinkeby: {
       provider: rinkebyProvider,
-      // You can get the current gasLimit by running
-      // truffle deploy --network rinkeby
-      // truffle(rinkeby)> web3.eth.getBlock("pending", (error, result) =>
-      //   console.log(result.gasLimit))
       gas: 4600000,
       gasPrice: web3.toWei("20", "gwei"),
       network_id: "4",
