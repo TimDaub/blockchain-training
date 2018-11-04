@@ -2,7 +2,9 @@
 
 ## 1. Installation
 
-To install this codebase first clone it from github and setup node dependencies.
+To install this codebase first clone it from GitHub and setup node
+dependencies.  If you don't have node.js installed checkout [this
+page](https://nodejs.org/en/download/package-manager/).
 
 ```
 # Clone the project from GitHub
@@ -58,7 +60,12 @@ contract definition called `MyToken`. It also has two methods:
 
 For a contract to create tokens we'll have to create a mapping between addresses
 and their balances. Balances are of type `uint256`. Addresses have a special
-`address` type in Ethereum.
+`address` type in Ethereum. Creating a mapping has the following syntax:
+
+```
+mapping(address => uint256) myMapping;
+```
+
 At the top of contract, create a mapping that maps `address => uint256` and
 call it `balanceOf`.
 
@@ -86,8 +93,8 @@ There we pass in `10000` as a second parameter to `.deploy()`. This is our
 `initialSupply` value. As a first parameter we're passing the artifact of the
 contract itself.
 
-We'd like to give the person initializing the contract all the initialSupply
-coins. Remember, `balanceOf` maps an `address` to a `uint`. It happens to be
+We'd like to give the person initializing the contract all the `initialSupply`
+coins. Remember, `balanceOf` maps an `address` to a `uint256`. It happens to be
 that `msg.sender` is an `address` and `initialSupply` an `uint256`. To do this,
 we need to set the `balanceOf` of the caller (`msg.sender`) to `initialSupply`.
 Implement this in the `constructor` method. Test your code again by executing
@@ -96,7 +103,7 @@ Implement this in the `constructor` method. Test your code again by executing
 ### 3.3 The transfer method
 
 To recapitulate, we introduced a variable `balanceOf` that maps `address =>
-uint256`.  We told our contructor to allocate all funds to `msg.sender` (so to
+uint256`.  We told our constructor to allocate all funds to `msg.sender` (so to
 ourselves). However, without having a way to transfer tokens, there is not much
 usefulness in our approach so far. That's why we'd like to implement `function
 transfer`.
@@ -104,8 +111,8 @@ transfer`.
 #### The function signature
 
 As we can see there is already a function signature for us. A transfer gets
-passed an `address _to` and a `uint256 value`. We know also that the caller's
-`address` can be accessed with `msg.sender`. Let's now create fill in the
+passed an `address _to` and a `uint256 _value`. We know also that the caller's
+`address` can be accessed with `msg.sender`. Let's now fill in the
 transfer method's instructions.
 
 #### Checks
@@ -117,13 +124,13 @@ like to make sure that anyone calling `function transfer` cannot actively
 overflow our values to create artificially more coins.
 
 Secondly, we'd like to check whether the caller of the contract has enough of a
-balance to make the call anyways. For this we need to check the `balanceOf`
+balance to make the call anyways. For this we need to check the `balanceOf` of
 `msg.sender`. We can do this by accessing `balanceOf` like this:
 `balanceOf[msg.sender]`. We then want to compare this value, which is a
-`uint256` to `_value`. `balanceOf[msg.sender]` should be greater or equal
-`_value`. In solidity to assert if a statement is `true`, we can use the
-`require` statement. To learn more about when to use `require`, checkout the
-[solidity
+`uint256` to `_value`. `balanceOf[msg.sender]` should be greater or equal to
+`_value`. In Solidity to assert if a statement is `true`, we can use the
+`require` statement. To learn more about when to use `require()`,
+checkout the [solidity
 documentation](https://solidity.readthedocs.io/en/v0.4.24/control-structures.html#error-handling-assert-require-revert-and-exceptions).
 
 #### Re-assigning `_value` to `_to`
@@ -134,7 +141,13 @@ of the caller `msg.sender`. Secondly, we want to assign the amount of `_value`
 for the `balanceOf` to `_to`.
 
 Let's first remove `_value` from `msg.sender`. We can use the `-=` operator to
-do so. As a second step, we'd like to add `_value` to `balanceOf[_to]`. To do
+do so. 
+
+```
+balanceOf[msg.sender] -= value;
+```
+
+As a second step, we'd like to add `_value` to `balanceOf[_to]`. To do
 so we can use the `+=` operator. If you're struggling to assign the values, go
 back and take a look at how we assigned the `initialSupply` to
 `balanceOf[msg.sender]` in the `constructor` method. Test your code again by
