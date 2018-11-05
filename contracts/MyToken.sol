@@ -1,16 +1,14 @@
 pragma solidity ^0.4.20;
 
 contract MyToken {
-    /* 3.1 This creates an array with all balances */
+    /* 3.1 This creates a mapping with all balances */
     mapping (address => uint256) balanceOf;
 
     /* 3.2 Give your contract a name */
     string name = "MyToken"
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
-    constructor (
-        uint256 initialSupply
-        ) public {
+    constructor (uint256 initialSupply) public {
         /* 3.3 Giving the creator all the coins */
         balanceOf[msg.sender] = initialSupply;              // Give the creator all initial tokens
     }
