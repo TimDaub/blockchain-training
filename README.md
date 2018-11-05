@@ -2,7 +2,9 @@
 
 ## 1. Installation
 
-To install this codebase first clone it from github and setup node dependencies.
+To install this codebase first clone it from GitHub and setup node
+dependencies.  If you don't have node.js installed checkout [this
+page](https://nodejs.org/en/download/package-manager/).
 
 ```
 # Clone the project from GitHub
@@ -42,7 +44,7 @@ at. Open them and familiarize yourself with the files in them.
 # stores information about the node.js project
 /package.json
 
-# stores the deployment routine to the Rinkeby test network
+# stores the deployment routine to the rinkeby test network
 /truffle.js
 ```
 
@@ -58,18 +60,35 @@ contract definition called `MyToken`. It also has two methods:
 
 For a contract to create tokens we'll have to create a mapping between addresses
 and their balances. Balances are of type `uint256`. Addresses have a special
-`address` type in Ethereum.
+`address` type in Ethereum. Creating a mapping has the following syntax:
+
+```
+mapping(address => uint256) myMapping;
+```
+
 At the top of contract, create a mapping that maps `address => uint256` and
 call it `balanceOf`.
 
 To test whether nor not the code that you wrote is correct, you can execute
 `truffle compile` in the root of your directory.
 
-### 3.2 Giving the creator all coins ¯\_(ツ)_/¯
+### 3.2 Giving our token a name
+
+Our token shouldn't just be a number on the Ethereum blockchain. We'd like our
+token to have a name. To do so we need to define a `string name`.
+A string can be defined like this:
+
+```
+string name = "My Name";
+```
+
+Define a `string` `name` below `balanceOf` to give your token a name.
+
+### 3.3 Giving the creator all tokens ¯\_(ツ)_/¯
 
 The `constructor` initializes the smart contract. Before a contract is not
 initialized, it's methods cannot be called appropriately. For our token we want
-to give all of the coins initially to ourselves. A `uint256 initialSupply` is
+to give all of the tokens initially to ourselves. A `uint256 initialSupply` is
 already passed to `constructor(uint256 initialSupply)`. This happens when we
 deploy the contract with a migration. Take a look at
 `migrations/2_deploy_contract.js`. 
@@ -86,17 +105,17 @@ There we pass in `10000` as a second parameter to `.deploy()`. This is our
 `initialSupply` value. As a first parameter we're passing the artifact of the
 contract itself.
 
-We'd like to give the person initializing the contract all the initialSupply
-coins. Remember, `balanceOf` maps an `address` to a `uint`. It happens to be
+We'd like to give the person initializing the contract all the `initialSupply`
+tokens. Remember, `balanceOf` maps an `address` to a `uint256`. It happens to be
 that `msg.sender` is an `address` and `initialSupply` an `uint256`. To do this,
 we need to set the `balanceOf` of the caller (`msg.sender`) to `initialSupply`.
 Implement this in the `constructor` method. Test your code again by executing
 `truffle compile` in the root directory of your project.
 
-### 3.3 The transfer method
+### 3.4 The transfer method
 
 To recapitulate, we introduced a variable `balanceOf` that maps `address =>
-uint256`.  We told our contructor to allocate all funds to `msg.sender` (so to
+uint256`.  We told our constructor to allocate all funds to `msg.sender` (so to
 ourselves). However, without having a way to transfer tokens, there is not much
 usefulness in our approach so far. That's why we'd like to implement `function
 transfer`.
@@ -104,8 +123,8 @@ transfer`.
 #### The function signature
 
 As we can see there is already a function signature for us. A transfer gets
-passed an `address _to` and a `uint256 value`. We know also that the caller's
-`address` can be accessed with `msg.sender`. Let's now create fill in the
+passed an `address _to` and a `uint256 _value`. We know also that the caller's
+`address` can be accessed with `msg.sender`. Let's now fill in the
 transfer method's instructions.
 
 #### Checks
@@ -114,16 +133,16 @@ As you can see, there is already a `require` statement in the `function
 transfer`.  It checks for overflows. Solidity `uint256` can overflow if a large
 or small enough value is passed to them. With this `require` statement, we'd
 like to make sure that anyone calling `function transfer` cannot actively
-overflow our values to create artificially more coins.
+overflow our values to create artificially more tokens.
 
 Secondly, we'd like to check whether the caller of the contract has enough of a
-balance to make the call anyways. For this we need to check the `balanceOf`
+balance to make the call anyways. For this we need to check the `balanceOf` of
 `msg.sender`. We can do this by accessing `balanceOf` like this:
 `balanceOf[msg.sender]`. We then want to compare this value, which is a
-`uint256` to `_value`. `balanceOf[msg.sender]` should be greater or equal
-`_value`. In solidity to assert if a statement is `true`, we can use the
-`require` statement. To learn more about when to use `require`, checkout the
-[solidity
+`uint256` to `_value`. `balanceOf[msg.sender]` should be greater or equal to
+`_value`. In Solidity to assert if a statement is `true`, we can use the
+`require` statement. To learn more about when to use `require()`,
+checkout the [solidity
 documentation](https://solidity.readthedocs.io/en/v0.4.24/control-structures.html#error-handling-assert-require-revert-and-exceptions).
 
 #### Re-assigning `_value` to `_to`
@@ -134,7 +153,13 @@ of the caller `msg.sender`. Secondly, we want to assign the amount of `_value`
 for the `balanceOf` to `_to`.
 
 Let's first remove `_value` from `msg.sender`. We can use the `-=` operator to
-do so. As a second step, we'd like to add `_value` to `balanceOf[_to]`. To do
+do so. 
+
+```
+balanceOf[msg.sender] -= value;
+```
+
+As a second step, we'd like to add `_value` to `balanceOf[_to]`. To do
 so we can use the `+=` operator. If you're struggling to assign the values, go
 back and take a look at how we assigned the `initialSupply` to
 `balanceOf[msg.sender]` in the `constructor` method. Test your code again by
@@ -145,7 +170,7 @@ doing `truffle compile` in the root directory of your project.
 That's it. You've successfully implemented your own token tracker in solidity.
 Congratulations! Now let's deploy this thing onto a test net and use it.
 
-## 4. Installing metamask and getting ether from Rinkeby faucet
+## 4. Installing metamask and getting ether from rinkeby faucet
 
 To deploy a smart contract we're going to need ether to deploy it. To store
 our ether, we'll need a wallet. A very convenient wallet is Metamask. It works
@@ -159,7 +184,8 @@ testing purposes and it's ether doesn't have any value. It can be spend without
 worrying about it. To request some ether, we're using a so called faucet.  A
 faucet dispenses some ether to us for free. Go to [this
 website](https://faucet.rinkeby.io/), read the instructions and request some
-ether using your social media profile of your choice.
+ether using your social media profile of your choice. Alternatively, you can
+ask us to give you some Rinkeby ether. We're rich in test net tokens!
 
 ### Getting ready to deploy
 
@@ -168,9 +194,6 @@ contract. To do so, let's take a look at our `truffle.js` file in the root
 directory. We've commented the code so you can see what it does.
 
 ```javascript
-// it requires dotenv and reads the .env file
-require('dotenv').config();
-
 // it requires a bunch of libraries which we're going to use later on
 const Web3 = require("web3");
 const web3 = new Web3();
@@ -210,13 +233,16 @@ like this:
  $ truffle compile
  Compiling ./contracts/MyToken.sol...
 
- Compilation warnings encountered:
+Compilation warnings encountered:
 
- /Users/TimDaub/Projects/blockchain-training/contracts/MyToken.sol:15:5: Warning: No visibility specified. Defaulting to "public".
-     function transfer(address _to, uint256 _value) {
-         ^ (Relevant source part starts here and spans across multiple lines).
+/Users/linkeex/Projects/blockchain-training/contracts/MyToken.sol:8:5: Warning: No visibility specified. Defaulting to "public".
+    constructor (uint256 initialSupply) {
+    ^ (Relevant source part starts here and spans across multiple lines).
+,/Users/linkeex/Projects/blockchain-training/contracts/MyToken.sol:13:5: Warning: No visibility specified. Defaulting to "public".
+    function transfer(address _to, uint256 _value) {
+    ^ (Relevant source part starts here and spans across multiple lines).
 
-         Writing artifacts to ./build/contracts
+Writing artifacts to ./build/contracts
 ```
 
 Assuming you don't have any errors in your code, we can now deploy your contract
@@ -230,7 +256,7 @@ some ether however. Remember that in earlier in this step we requested some
 ether from a faucet. We'll now need to tell `truffle.config` our private key to
 this ether for it to successfully deploy the token tracker. To get the private
 key from Metamask, open Metamask in your browser. Click on the three dots next
-to your address and click "View Account Details".
+to your address and click "Account Details".
 
 ![metamask account](https://github.com/TimDaub/blockchain-training/blob/master/assets/screenshot1.png?raw=true)
 
@@ -243,7 +269,7 @@ $ RINKEBY_PRIVATE_KEY=<Your private key> truffle migrate --network rinkeby
 
 and hit enter. You should see the following output:
 ```
-$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby --reset
+$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby
 Using network 'rinkeby'.
 
 Running migration: 1_initial_migration.js
@@ -262,7 +288,7 @@ Saving successful migration to network...
 Saving artifacts...
 ```
 
-To check whether or not your token tracker was successfully implemented on the
+To check whether or not your token tracker was successfully deployed on the
 Rinkeby test network you can use rinkeby.etherscan.io to check your
 transaction.  To do so, copy the following line from above:
 
