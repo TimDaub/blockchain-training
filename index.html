@@ -21,7 +21,7 @@
             async function render (web3, contract) {
                 const address = (await web3.eth.getAccounts())[0]
                 const tokenName = await contract.methods.name().call()
-                const balance = await contract.methods.getBalance(address).call()
+                const balance = await contract.methods.balanceOf(address).call()
 
                 $('#tokenName').text(tokenName)
                 $('#account').text(address)

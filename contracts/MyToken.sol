@@ -2,7 +2,7 @@ pragma solidity ^0.4.20;
 
 contract MyToken {
     /* 3.1 This creates a mapping with all balances */
-    mapping (address => uint256) balanceOf;
+    mapping (address => uint256) public balanceOf;
 
     /* 3.2 Give your contract a name */
     string public name = "MyToken";
@@ -20,9 +20,5 @@ contract MyToken {
         require(balanceOf[msg.sender] >= _value);           // Check if the sender has enough
         balanceOf[msg.sender] -= _value;                    // Subtract from the sender
         balanceOf[_to] += _value;                           // Add the same to the recipient
-    }
-
-    function getBalance(address _address) public view returns (uint256) {
-        return balanceOf[_address];
     }
 }
