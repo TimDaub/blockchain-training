@@ -1,5 +1,11 @@
 # How to launch a token on Ethereum
 
+## Presentations
+
+- [What are tokens](https://docs.google.com/presentation/d/1hwTs_5eP1bAQBu1Dple9tzAHCPra7nq1IHsk-HMI5aE/edit?usp=sharing)
+- [How to launch a token on the Ethereum network](https://docs.google.com/presentation/d/1VT29uItIgqDD8jsQ5qmE1xUfbwaMHglDrfbJoRb2Qq8/edit?usp=sharing)
+
+
 ## 1. Installation
 
 To install this codebase first clone it from GitHub and setup node
