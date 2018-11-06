@@ -3,20 +3,20 @@
 ## 1. Installation
 
 To install this codebase first clone it from GitHub and setup node
-dependencies.  If you don't have node.js installed checkout [this
+dependencies.  If you don't have Node.js installed checkout [this
 page](https://nodejs.org/en/download/package-manager/).
 
 ```
 # Clone the project from GitHub
-$ git clone git@github.com:TimDaub/blockchain-training.git
+$ git clone https://github.com/TimDaub/blockchain-training.git
 
 # Go in the downloaded folder
 $ cd blockchain-training
 
-# Install the node.js dependencies
-$ npm install 
+# Install the Node.js dependencies
+$ npm install
 
-# Install truffle, a smart contract tooling frame work
+# Install truffle, a smart contract tooling framework
 npm install -g truffle
 ```
 
@@ -38,13 +38,16 @@ at. Open them and familiarize yourself with the files in them.
 # holds the solidity migrations
 /migrations/
 
-# holds all node.js dependencies
+# holds all Node.js dependencies (you can safely ignore it)
 /node_modules/
 
-# stores information about the node.js project
+# holds the web interface to interact with the token
+/index.html
+
+# stores information about this Node.js project
 /package.json
 
-# stores the deployment routine to the rinkeby test network
+# stores the deployment routine to the Rinkeby test network
 /truffle.js
 ```
 
@@ -70,7 +73,7 @@ At the top of contract, create a mapping that maps `address => uint256` and
 call it `balanceOf`.
 
 To test whether nor not the code that you wrote is correct, you can execute
-`truffle compile` in the root of your directory.
+`truffle compile` in the root folder of the project.
 
 ### 3.2 Giving our token a name
 
@@ -79,19 +82,23 @@ token to have a name. To do so we need to define a `string name`.
 A string can be defined like this:
 
 ```
-string name = "My Name";
+string public name = "My Name";
 ```
 
-Define a `string` `name` below `balanceOf` to give your token a name.
+*Note the extra keyword `public`: it is used to define the visibility of the
+variable. Solidity (the language used to write smart contracts) has many other
+modifies, but we won't dig in each one of them. Roughly speaking, `public`
+makes our variable accessible from outside the contract.* Define a `string`
+called `name` below `balanceOf` to give your token a customized name.
 
-### 3.3 Giving the creator all tokens ¯\_(ツ)_/¯
+### 3.3 Giving the creator all tokens ¯\\_(ツ)_/¯
 
 The `constructor` initializes the smart contract. Before a contract is not
 initialized, it's methods cannot be called appropriately. For our token we want
 to give all of the tokens initially to ourselves. A `uint256 initialSupply` is
 already passed to `constructor(uint256 initialSupply)`. This happens when we
 deploy the contract with a migration. Take a look at
-`migrations/2_deploy_contract.js`. 
+`migrations/2_deploy_contract.js`.
 
 ```
 var MyToken = artifacts.require('./MyToken.sol');
@@ -153,7 +160,7 @@ of the caller `msg.sender`. Secondly, we want to assign the amount of `_value`
 for the `balanceOf` to `_to`.
 
 Let's first remove `_value` from `msg.sender`. We can use the `-=` operator to
-do so. 
+do so.
 
 ```
 balanceOf[msg.sender] -= value;
@@ -170,7 +177,7 @@ doing `truffle compile` in the root directory of your project.
 That's it. You've successfully implemented your own token tracker in solidity.
 Congratulations! Now let's deploy this thing onto a test net and use it.
 
-## 4. Installing metamask and getting ether from rinkeby faucet
+## 4. Installing metamask and getting ether from Rinkeby faucet
 
 To deploy a smart contract we're going to need ether to deploy it. To store
 our ether, we'll need a wallet. A very convenient wallet is Metamask. It works
