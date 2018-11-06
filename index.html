@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>My Token</title>
+  <head>
+    <meta charset="UTF-8">
+    <title>My Token</title>
 
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@v1.0.0-beta.36/dist/web3.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/vrde/web3-browser-loader@master/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@v1.0.0-beta.36/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/vrde/web3-browser-loader@master/index.js"></script>
 
-        <script>
-            async function boot () {
-                const web3 = await loadWeb3()
-                const network = await web3.eth.net.getId()
-                const contractMetadata = await $.getJSON('./build/contracts/MyToken.json')
-                const contract = new web3.eth.Contract(contractMetadata.abi, contractMetadata.networks[network].address)
+    <script>
+      async function boot () {
+        const web3 = await loadWeb3()
+        const network = await web3.eth.net.getId()
+        const contractMetadata = await $.getJSON('./build/contracts/MyToken.json')
+        const contract = new web3.eth.Contract(contractMetadata.abi, contractMetadata.networks[network].address)
 
-                render(web3, contract)
-            }
+        render(web3, contract)
+      }
 
-            async function render (web3, contract) {
-                const address = (await web3.eth.getAccounts())[0]
-                const tokenName = await contract.methods.name().call()
-                const balance = await contract.methods.balanceOf(address).call()
+      async function render (web3, contract) {
+        const address = (await web3.eth.getAccounts())[0]
+        const tokenName = await contract.methods.name().call()
+        const balance = await contract.methods.balanceOf(address).call()
 
-                $('#tokenName').text(tokenName)
-                $('#account').text(address)
-                $('#balance').text(balance)
+        $('#tokenName').text(tokenName)
+        $('#account').text(address)
+        $('#balance').text(balance)
 
-                $('#send').on('click', function (event) {
-                    const receiver = $('#receiver').val()
-                    const amount = parseInt($('#amount').val(), 10)
-                    contract.methods.transfer(receiver, amount).send({ from: address })
-                })
-            }
+        $('#send').on('click', function (event) {
+          const receiver = $('#receiver').val()
+          const amount = parseInt($('#amount').val(), 10)
+          contract.methods.transfer(receiver, amount).send({ from: address })
+        })
+      }
 
-            boot()
-        </script>
+      boot()
+    </script>
 
-        <style>
-            body { font-family: monospace; width: 80%; margin: 10px auto; padding: 20px; border: 1px dotted }
-        </style>
-    </head>
+    <style>
+      body { font-family: monospace; width: 80%; margin: 10px auto; padding: 20px; border: 1px dotted }
+    </style>
+  </head>
 
-    <body>
-        <h1>Hello <em id="account">0x0</em></h1>
+  <body>
+    <h1>Hello <em id="account">0x0</em></h1>
 
-        <h2>Your balance is <span id="balance">0</span> <em id="tokenName"></em> tokens</h2>
+    <h2>Your balance is <span id="balance">0</span> <em id="tokenName"></em> tokens</h2>
 
-        Transfer <input id="amount" size="1" /> tokens to address <input id="receiver" type="text" /> <button id="send">Send</button>
-    </body>
+    Transfer <input id="amount" size="1" /> tokens to address <input id="receiver" type="text" /> <button id="send">Send</button>
+  </body>
 </html>

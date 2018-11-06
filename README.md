@@ -177,7 +177,7 @@ doing `truffle compile` in the root directory of your project.
 That's it. You've successfully implemented your own token tracker in solidity.
 Congratulations! Now let's deploy this thing onto a test net and use it.
 
-## 4. Installing metamask and getting ether from Rinkeby faucet
+## 4. Installing Metamask and getting ether from Rinkeby faucet
 
 To deploy a smart contract we're going to need ether to deploy it. To store
 our ether, we'll need a wallet. A very convenient wallet is Metamask. It works
@@ -197,38 +197,8 @@ ask us to give you some Rinkeby ether. We're rich in test net tokens!
 ### Getting ready to deploy
 
 Now that you've received your ether in Metamask, we can start to deploy our
-contract. To do so, let's take a look at our `truffle.js` file in the root
-directory. We've commented the code so you can see what it does.
-
-```javascript
-// it requires a bunch of libraries which we're going to use later on
-const Web3 = require("web3");
-const web3 = new Web3();
-const WalletProvider = require("truffle-wallet-provider");
-const Wallet = require('ethereumjs-wallet');
-
-// it reads the private key `RINKEBY_PRIVATE_KEY` from our ENV variables
-var rinkebyPrivateKey = new Buffer(process.env["RINKEBY_PRIVATE_KEY"], "hex")
-
-// creates a wallet using the private key
-var rinkebyWallet = Wallet.fromPrivateKey(rinkebyPrivateKey);
-
-// and initializes a wallet provider with a full node on infura. A wallet
-// provider.
-var rinkebyProvider = new WalletProvider(rinkebyWallet, "https://rinkeby.infura.io/");
-
-
-module.exports = {
-  networks: {
-    rinkeby: {
-      provider: rinkebyProvider,
-      gas: 4600000,
-      gasPrice: web3.toWei("20", "gwei"),
-      network_id: "4",
-    }
-  }
-};
-```
+contract. To do so, let's take a look at our [`truffle.js`](./truffle.js) file
+in the root directory. We've commented the code so you can see what it does.
 
 To deploy a contract, you'll have to use the `truffle` command line interface.
 Remember that you installed it in the beginning of the lesson already. First,
@@ -237,18 +207,9 @@ In your command line, execute `$ truffle compile`. It should give you an output
 like this:
 
 ```
- $ truffle compile
- Compiling ./contracts/MyToken.sol...
-
-Compilation warnings encountered:
-
-/Users/linkeex/Projects/blockchain-training/contracts/MyToken.sol:8:5: Warning: No visibility specified. Defaulting to "public".
-    constructor (uint256 initialSupply) {
-    ^ (Relevant source part starts here and spans across multiple lines).
-,/Users/linkeex/Projects/blockchain-training/contracts/MyToken.sol:13:5: Warning: No visibility specified. Defaulting to "public".
-    function transfer(address _to, uint256 _value) {
-    ^ (Relevant source part starts here and spans across multiple lines).
-
+$ truffle compile
+Compiling ./contracts/Migrations.sol...
+Compiling ./contracts/MyToken.sol...
 Writing artifacts to ./build/contracts
 ```
 
@@ -271,12 +232,12 @@ Click on "Export Private Key", enter your password and reveal your private key.
 Copy it into your clipboard. Go into your console and enter the following:
 
 ```
-$ RINKEBY_PRIVATE_KEY=<Your private key> truffle migrate --network rinkeby
+$ RINKEBY_PRIVATE_KEY=<Your private key> truffle migrate
 ```
 
 and hit enter. You should see the following output:
 ```
-$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby
+$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate
 Using network 'rinkeby'.
 
 Running migration: 1_initial_migration.js
@@ -309,3 +270,24 @@ address. Hit enter.  You'll see your contract page being loaded.
 
 Now that we've successfully deployed our token to the network, it's time to open
 our frontend.
+
+#### I cannot run `migrate` more than one time!
+
+Once a migration has been successfully executed, it cannot be run again.
+You can reset truffle and migrate again by running:
+
+```
+$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --reset
+```
+
+### Start the frontend
+
+We provide a simple web UI you can use to check your balance and transfer your
+tokens. To use it, run:
+
+```
+$ npm start
+```
+
+This command starts a local web server and opens the `index.html` page in your
+browser.
