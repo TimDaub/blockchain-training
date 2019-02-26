@@ -1,4 +1,4 @@
-pragma solidity ^0.4.20;
+pragma solidity >=0.4.21 <0.6.0;
 
 contract MyToken {
     /* 3.1 This creates a mapping with all balances */
