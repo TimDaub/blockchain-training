@@ -1,22 +1,28 @@
 # How to launch a token on Ethereum
 
+## Presentations
+
+- [What are tokens](https://docs.google.com/presentation/d/1hwTs_5eP1bAQBu1Dple9tzAHCPra7nq1IHsk-HMI5aE/edit?usp=sharing)
+- [How to launch a token on the Ethereum network](https://docs.google.com/presentation/d/1VT29uItIgqDD8jsQ5qmE1xUfbwaMHglDrfbJoRb2Qq8/edit?usp=sharing)
+
+
 ## 1. Installation
 
 To install this codebase first clone it from GitHub and setup node
-dependencies.  If you don't have node.js installed checkout [this
+dependencies.  If you don't have Node.js installed checkout [this
 page](https://nodejs.org/en/download/package-manager/).
 
 ```
 # Clone the project from GitHub
-$ git clone git@github.com:TimDaub/blockchain-training.git
+$ git clone https://github.com/TimDaub/blockchain-training.git
 
 # Go in the downloaded folder
 $ cd blockchain-training
 
-# Install the node.js dependencies
-$ npm install 
+# Install the Node.js dependencies
+$ npm install
 
-# Install truffle, a smart contract tooling frame work
+# Install truffle, a smart contract tooling framework
 npm install -g truffle
 ```
 
@@ -38,13 +44,16 @@ at. Open them and familiarize yourself with the files in them.
 # holds the solidity migrations
 /migrations/
 
-# holds all node.js dependencies
+# holds all Node.js dependencies (you can safely ignore it)
 /node_modules/
 
-# stores information about the node.js project
+# holds the web interface to interact with the token
+/index.html
+
+# stores information about this Node.js project
 /package.json
 
-# stores the deployment routine to the rinkeby test network
+# stores the deployment routine to the Rinkeby test network
 /truffle.js
 ```
 
@@ -70,7 +79,7 @@ At the top of contract, create a mapping that maps `address => uint256` and
 call it `balanceOf`.
 
 To test whether nor not the code that you wrote is correct, you can execute
-`truffle compile` in the root of your directory.
+`truffle compile` in the root folder of the project.
 
 ### 3.2 Giving our token a name
 
@@ -79,19 +88,23 @@ token to have a name. To do so we need to define a `string name`.
 A string can be defined like this:
 
 ```
-string name = "My Name";
+string public name = "My Name";
 ```
 
-Define a `string` `name` below `balanceOf` to give your token a name.
+*Note the extra keyword `public`: it is used to define the visibility of the
+variable. Solidity (the language used to write smart contracts) has many other
+modifies, but we won't dig in each one of them. Roughly speaking, `public`
+makes our variable accessible from outside the contract.* Define a `string`
+called `name` below `balanceOf` to give your token a customized name.
 
-### 3.3 Giving the creator all tokens ¯\_(ツ)_/¯
+### 3.3 Giving the creator all tokens ¯\\_(ツ)_/¯
 
 The `constructor` initializes the smart contract. Before a contract is not
 initialized, it's methods cannot be called appropriately. For our token we want
 to give all of the tokens initially to ourselves. A `uint256 initialSupply` is
 already passed to `constructor(uint256 initialSupply)`. This happens when we
 deploy the contract with a migration. Take a look at
-`migrations/2_deploy_contract.js`. 
+`migrations/2_deploy_contract.js`.
 
 ```
 var MyToken = artifacts.require('./MyToken.sol');
@@ -153,7 +166,7 @@ of the caller `msg.sender`. Secondly, we want to assign the amount of `_value`
 for the `balanceOf` to `_to`.
 
 Let's first remove `_value` from `msg.sender`. We can use the `-=` operator to
-do so. 
+do so.
 
 ```
 balanceOf[msg.sender] -= value;
@@ -170,7 +183,7 @@ doing `truffle compile` in the root directory of your project.
 That's it. You've successfully implemented your own token tracker in solidity.
 Congratulations! Now let's deploy this thing onto a test net and use it.
 
-## 4. Installing metamask and getting ether from rinkeby faucet
+## 4. Installing Metamask and getting ether from Rinkeby faucet
 
 To deploy a smart contract we're going to need ether to deploy it. To store
 our ether, we'll need a wallet. A very convenient wallet is Metamask. It works
@@ -190,38 +203,8 @@ ask us to give you some Rinkeby ether. We're rich in test net tokens!
 ### Getting ready to deploy
 
 Now that you've received your ether in Metamask, we can start to deploy our
-contract. To do so, let's take a look at our `truffle.js` file in the root
-directory. We've commented the code so you can see what it does.
-
-```javascript
-// it requires a bunch of libraries which we're going to use later on
-const Web3 = require("web3");
-const web3 = new Web3();
-const WalletProvider = require("truffle-wallet-provider");
-const Wallet = require('ethereumjs-wallet');
-
-// it reads the private key `RINKEBY_PRIVATE_KEY` from our ENV variables
-var rinkebyPrivateKey = new Buffer(process.env["RINKEBY_PRIVATE_KEY"], "hex")
-
-// creates a wallet using the private key
-var rinkebyWallet = Wallet.fromPrivateKey(rinkebyPrivateKey);
-
-// and initializes a wallet provider with a full node on infura. A wallet
-// provider.
-var rinkebyProvider = new WalletProvider(rinkebyWallet, "https://rinkeby.infura.io/");
-
-
-module.exports = {
-  networks: {
-    rinkeby: {
-      provider: rinkebyProvider,
-      gas: 4600000,
-      gasPrice: web3.toWei("20", "gwei"),
-      network_id: "4",
-    }
-  }
-};
-```
+contract. To do so, let's take a look at our [`truffle.js`](./truffle.js) file
+in the root directory. We've commented the code so you can see what it does.
 
 To deploy a contract, you'll have to use the `truffle` command line interface.
 Remember that you installed it in the beginning of the lesson already. First,
@@ -230,18 +213,9 @@ In your command line, execute `$ truffle compile`. It should give you an output
 like this:
 
 ```
- $ truffle compile
- Compiling ./contracts/MyToken.sol...
-
-Compilation warnings encountered:
-
-/Users/linkeex/Projects/blockchain-training/contracts/MyToken.sol:8:5: Warning: No visibility specified. Defaulting to "public".
-    constructor (uint256 initialSupply) {
-    ^ (Relevant source part starts here and spans across multiple lines).
-,/Users/linkeex/Projects/blockchain-training/contracts/MyToken.sol:13:5: Warning: No visibility specified. Defaulting to "public".
-    function transfer(address _to, uint256 _value) {
-    ^ (Relevant source part starts here and spans across multiple lines).
-
+$ truffle compile
+Compiling ./contracts/Migrations.sol...
+Compiling ./contracts/MyToken.sol...
 Writing artifacts to ./build/contracts
 ```
 
@@ -264,12 +238,12 @@ Click on "Export Private Key", enter your password and reveal your private key.
 Copy it into your clipboard. Go into your console and enter the following:
 
 ```
-$ RINKEBY_PRIVATE_KEY=<Your private key> truffle migrate --network rinkeby
+$ RINKEBY_PRIVATE_KEY=<Your private key> truffle migrate
 ```
 
 and hit enter. You should see the following output:
 ```
-$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --network rinkeby
+$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate
 Using network 'rinkeby'.
 
 Running migration: 1_initial_migration.js
@@ -302,3 +276,24 @@ address. Hit enter.  You'll see your contract page being loaded.
 
 Now that we've successfully deployed our token to the network, it's time to open
 our frontend.
+
+#### I cannot run `migrate` more than one time!
+
+Once a migration has been successfully executed, it cannot be run again.
+You can reset truffle and migrate again by running:
+
+```
+$ RINKEBY_PRIVATE_KEY=<My private key> truffle migrate --reset
+```
+
+### Start the frontend
+
+We provide a simple web UI you can use to check your balance and transfer your
+tokens. To use it, run:
+
+```
+$ npm start
+```
+
+This command starts a local web server and opens the `index.html` page in your
+browser.

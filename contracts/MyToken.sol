@@ -1,8 +1,11 @@
-pragma solidity ^0.4.20;
+pragma solidity >=0.4.21 <0.6.0;
 
 contract MyToken {
     /* 3.1 This creates a mapping with all balances */
-    mapping (address => uint256) balanceOf;
+    mapping (address => uint256) public balanceOf;
+
+    /* 3.2 Give your contract a name */
+    string public name = "MyToken";
 
     /* 3.2 Give your contract a name */
     string name = "MyToken"
@@ -14,7 +17,7 @@ contract MyToken {
     }
 
     /* Send coins */
-    function transfer(address _to, uint256 _value) {
+    function transfer(address _to, uint256 _value) public {
         require(balanceOf[_to] + _value >= balanceOf[_to]); // Check for overflows
         /* 3.4 The transfer method */
         require(balanceOf[msg.sender] >= _value);           // Check if the sender has enough
