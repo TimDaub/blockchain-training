@@ -18,7 +18,6 @@ contract MyToken {
 
     /* Send coins */
     function transfer(address _to, uint256 _value) public {
-        require(balanceOf[_to] + _value >= balanceOf[_to]); // Check for overflows
         /* 3.4 The transfer method */
         require(balanceOf[msg.sender] >= _value);           // Check if the sender has enough
         balanceOf[msg.sender] -= _value;                    // Subtract from the sender
