@@ -4,7 +4,7 @@
 
 - [What are tokens](https://docs.google.com/presentation/d/1hwTs_5eP1bAQBu1Dple9tzAHCPra7nq1IHsk-HMI5aE/edit?usp=sharing)
 - [How to launch a token on the Ethereum network](https://docs.google.com/presentation/d/1VT29uItIgqDD8jsQ5qmE1xUfbwaMHglDrfbJoRb2Qq8/edit?usp=sharing)
-
+- [Recording](https://m.youtube.com/watch?v=_0Y2OfLQoTA&feature=emb_title)
 
 ## 1. Installation
 
